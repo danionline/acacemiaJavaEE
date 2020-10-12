@@ -9,7 +9,7 @@ Es una aplicacion de un supermecado donde tiene una serie de cursos, un login y 
 - HTML
 - JAVA
 
-![No disponemos de la imagen.](academia javaee.png?raw=true "Listado de Productos")
+![No disponemos de la imagen.](academia.javaee.png?raw=true "Listado de Productos")
 
 
 ## Instrucciones de uso de la app:
