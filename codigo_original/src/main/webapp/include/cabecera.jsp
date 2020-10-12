@@ -143,7 +143,7 @@
           
    			<ul class="navbar-nav mr-auto">
             <li class="nav-item"  >
-              <a class="nav-link ${ ( 'cursosalumno' eq param.pagina ) ? 'active' : '' }" href="privado/alumno">listado del alumno</a>
+              <a class="nav-link ${ ( 'privado/alumno' eq param.pagina ) ? 'active' : '' }" href="privado/alumno">listado del alumno</a>
             </li>
           </ul>  
  		

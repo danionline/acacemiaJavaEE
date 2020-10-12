@@ -201,7 +201,7 @@ footer{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    background-color: var(--colorNegro);
+    background-color: var(Negro);
     color: var(--colorBlanco);
 }
 
@@ -233,7 +233,7 @@ footer .col_2{
     margin-bottom: 20px;
     padding-bottom: 10px;
     font-size: 19px;
-    border-bottom: 2px solid var(--colorPrimario);
+    border-bottom: 2px solid black;
 }
 
 .footer_menu ul{

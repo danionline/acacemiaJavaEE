@@ -27,8 +27,11 @@
 		<input class="form-control" name="nombre" type="text" placeholder="Nombre">
 	
 		<label for="textlabel" class="col-sm-3 col-form-label">Contraseña</label>			
-		<input class="form-control" name="contrasena" type="text" placeholder="Contrasena"> 
+		<input class="form-control" name="pasword" type="text" placeholder="Contrasena"> 
 		<br>
+	
+
+		<input class="form-control" name="rol" hidden="hidden" value=1 type="text">
 	
 		<button type="submit" class="btn btn-warning mb-3">Iniciar Sesion</button>
 	

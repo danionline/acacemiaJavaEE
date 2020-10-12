@@ -11,12 +11,11 @@
 
       <br>
       <br>
-          
-	
+      	
 	<table class="tabla table table-striped">
 		<thead>
 			
-	
+
 			
 			<tr>
 				<td>Id</td>
@@ -24,7 +23,7 @@
 				
 				<td>Horas</td>
 				<td>Identificador</td>
-				<td>Profesor</td>
+				<td>Alumno</td>
 			
 				
 			</tr>
@@ -36,8 +35,8 @@
 					<td>${c.id}</td> <% // no hace falta usar el getter p.id == p.getId() %>
 					<td>${c.nombre}</td>
 					<td>${c.horas}</td>
-					<td>${c.codigo	}</td>
-					<td>${c.usuario.nombre}${c.usuario.apellido}</td>					
+					<td>${c.identificador	}</td>
+										
 				</tr>
 				</c:forEach>
 		</tbody>
@@ -48,7 +47,8 @@
 
   
   
-  
+  ${usuario_sesion}    
+	
   
         
       

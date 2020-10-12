@@ -45,17 +45,19 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String nombre = request.getParameter("nombre");
-		String password = request.getParameter("contrasena");
+		String pasword = request.getParameter("pasword");
+		int rol = Integer.parseInt(request.getParameter("rol"));
+
 		UsuarioDaoImpl dao = UsuarioDaoImpl.getInstance();
 
-		Usuario usuario = dao.buscar(nombre, password);
+		Usuario usuario = dao.existe(nombre, rol);
 
 		if (usuario == null) {
 			String mensaje = "credenciales incorrectas";
 			request.setAttribute("mensaje", mensaje);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 
-		} else if (usuario.getRol() == 2) {
+		} else if (usuario.getRol() == rol) {
 
 			// LISTAR CURSOS DE PROFESORES
 
@@ -72,9 +74,9 @@ public class LoginController extends HttpServlet {
 			ArrayList<Cursos> cursos = new ArrayList<Cursos>();
 			cursos = dao.listarAlumnos(usuario.getId()); // Crea el DAO de Cursos y obtento todos
 			request.setAttribute("cursos", cursos);
-
 			request.getSession().setAttribute("usuario_sesion", usuario);
 			response.sendRedirect(request.getContextPath() + "/privado/alumno");
+			// request.getRequestDispatcher("privado/alumno").forward(request, response);
 
 		}
 

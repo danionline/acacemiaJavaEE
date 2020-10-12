@@ -18,17 +18,16 @@ public class UsuarioDaoImpl implements UsuarioDAO {
 	private final static Logger LOG = Logger.getLogger(UsuarioDaoImpl.class);
 
 	// exceuteQuerys => ResultSet
-	static final String SQL_GET_ALL_BY_NOMBRE = " SELECT u.id, u.nombre, contrasenia, id_rol, r.nombre AS 'nombre_rol' FROM usuario AS u INNER JOIN rol AS r ON u.id_rol = r.id WHERE nombre LIKE ? LIMIT 500 ;   ";
+	static final String SQL_GET_ALL_BY_NOMBRE = " SELECT u.id, u.nombre, pasword, id_rol, r.nombre AS 'nombre_rol' FROM usuario AS u INNER JOIN rol AS r ON u.id_rol = r.id WHERE nombre LIKE ? LIMIT 500 ;   ";
 	static final String SQL_GET_ALL = " SELECT id_usuarios , nombre,MD5(pasword) FROM usuarios ORDER BY id_usuarios DESC LIMIT 500 ; ";
-	static final String SQL_GET_BY_ID = " SELECT u.id, u.nombre, contrasenia, id_rol, r.nombre AS 'nombre_rol' FROM usuario AS u INNER JOIN rol AS r ON u.id_rol = r.id WHERE u.id = ? ; ";
-	static final String SQL_EXISTE = "SELECT  id, pasword, nombre, rol FROM usuarios WHERE nombre = ? AND pasword = MD5(?) ;";
+	static final String SQL_GET_BY_ID = " SELECT u.id, u.nombre, pasword, id_rol, r.nombre AS 'nombre_rol' FROM usuario AS u INNER JOIN rol AS r ON u.id_rol = r.id WHERE u.id = ? ; ";
+	static final String SQL_EXISTE = "SELECT id,nombre,pasword,rol FROM usuarios  WHERE nombre =? AND rol=?;";
 	static final String SQL_CURSOS_PROFESOR = "SELECT id, nombre, codigo, horas FROM cursos where  id_profesor=? ;";
-	static final String SQL_ALUMNOS_CURSOS = "SELECT id, nombre , codigo, horas FROM cursos where  id_alumno=? ;";
-
-	// executeUpdate => int
-	static final String SQL_INSERT = " INSERT INTO usuario(nombre, contrasenia, id_rol) VALUES( ? , ? , ? ); ";
+	static final String SQL_ALUMNOS_CURSOS = "SELECT c.id ,c.horas ,c.codigo, c.nombre FROM alumnos_curso ac , cursos c, usuarios u2 where ac.id_curso =c.id AND u2.id =ac.id AND id_alumno =?	;";
+	// executeUpda te => int
+	static final String SQL_INSERT = " INSERT INTO usuario(nombre, pasword, id_rol) VALUES( ? , ? , ? ); ";
 	static final String SQL_DELETE = " DELETE FROM usuario WHERE id = ? ;";
-	static final String SQL_UPDATE = " UPDATE usuario SET nombre = ?, contrasenia = ? , id_rol = ? WHERE id = ? ; ";
+	static final String SQL_UPDATE = " UPDATE usuario SET nombre = ?, pasword = MD5(?) , id_rol = ? WHERE id = ? ; ";
 
 	public UsuarioDaoImpl() {
 		super();
@@ -80,7 +79,7 @@ public class UsuarioDaoImpl implements UsuarioDAO {
 				Cursos c = new Cursos();
 				c.setId(rs.getInt("id"));
 				c.setNombre(rs.getString("nombre"));
-				c.setIdentificador(rs.getString("identificador"));
+				c.setIdentificador(rs.getString("codigo	"));
 				c.setHoras(rs.getInt("horas"));
 
 				cursos.add(c);
@@ -124,8 +123,9 @@ public class UsuarioDaoImpl implements UsuarioDAO {
 		return cursos;
 	}
 
-	public Usuario buscar(String nombre, String password) {
-		Usuario usuario = new Usuario();
+	public Usuario existe(String nombre, int rol) {
+
+		Usuario usuario = null;
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pst = con.prepareStatement(SQL_EXISTE);
@@ -133,30 +133,18 @@ public class UsuarioDaoImpl implements UsuarioDAO {
 		) {
 
 			pst.setString(1, nombre);
-			pst.setString(2, password);
-
-			// TODO Logger
-			System.out.println(pst);
-
+			pst.setInt(2, rol);
+			LOG.debug(pst);
 			try (ResultSet rs = pst.executeQuery()) {
 
 				if (rs.next()) {
-
-					usuario.setNombre(rs.getString("nombre"));
-					usuario.setContrasena(rs.getString("pasword"));
-					usuario.setRol(rs.getInt("rol"));
-					usuario.setId(rs.getInt("id"));
-
-				} else {
-					usuario = null;
+					usuario = mapper(rs);
 				}
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			} // 2º try
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
 		}
 
 		return usuario;
@@ -168,7 +156,16 @@ public class UsuarioDaoImpl implements UsuarioDAO {
 
 		usuario.setId(rs.getInt("id"));
 		usuario.setNombre(rs.getString("nombre"));
-		usuario.setContrasena(rs.getString("contrasena"));
+		usuario.setContrasena(rs.getString("pasword"));
+		usuario.setRol(rs.getInt("rol"));
+
+		// rol
+		// Rol rol = new Rol();
+		// rol.setId(rs.getInt("id_rol"));
+		// rol.setNombre(rs.getString("nombre_rol"));
+
+		// setear el rol al usuario
+		// usuario.setRol(rol);
 
 		return usuario;
 
@@ -176,6 +173,12 @@ public class UsuarioDaoImpl implements UsuarioDAO {
 
 	@Override
 	public ArrayList<Usuario> getAllByNombre(String palabraBuscada) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Usuario buscar(String nombre, String password) {
 		// TODO Auto-generated method stub
 		return null;
 	}

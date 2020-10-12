@@ -20,7 +20,7 @@
                     <li><a href="index.jsp">+34 ##########</a></li>
                 </ul>
             </div>
-            <p id="movil_version">Versión adaptada para móviles</p>
+   
             <p id="copyright">&copy; 2020 by Daniel Renedo</p>
         </footer>
 
