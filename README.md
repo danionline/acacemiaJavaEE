@@ -1,6 +1,6 @@
 # academiaJavaEE
 
-Es una aplicacion de un supermecado donde tiene una serie de cursos, un login y un listado de cursos de profesor y de alumno.
+Es una aplicacion de una academia donde tiene una serie de cursos, un login y un listado de cursos de profesor y de alumno.
 
 
 ## Codigo que utiliza:
